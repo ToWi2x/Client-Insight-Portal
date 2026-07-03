@@ -128,11 +128,23 @@ STATIC_URL = "static/"
 
 
 # django-allauth Configuration
-SITE_ID = 1
-AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
-)
+import sys
+
+def GET_SITE_ID():
+    # If running migrations or creating superusers, default to 1
+    if 'migrate' in sys.argv or 'makemigrations' in sys.argv or 'createsuperuser' in sys.argv:
+        return 1
+    
+    # Otherwise, dynamically find the site ID matching the current request database row
+    try:
+        from django.contrib.sites.models import Site
+        # Looks for 127.0.0.1:8000 or localhost
+        site = Site.objects.get_current()
+        return site.id
+    except Exception:
+        return 1
+
+SITE_ID = GET_SITE_ID()
 
 # Login routing
 LOGIN_REDIRECT_URL = '/'

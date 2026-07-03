@@ -46,11 +46,7 @@
                             <td>{{ alert.timestamp|date:"M d, Y H:i" }}</td>
                             <td><span class="text-danger fw-bold">Unresolved</span></td>
                         </tr>
-                        {% empty %}
-                        <tr>
-                            <td colspan="5" class="text-center text-success py-3">✅ All systems secure. No active alerts.</td>
-                        </tr>
-                        {% endfor %}
+                         {% endfor %}
                     </tbody>
                 </table>
             </div>
