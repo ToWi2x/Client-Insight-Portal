@@ -21,6 +21,7 @@ This Proof of Concept (PoC) was built to demonstrate a modern, scalable client d
 
 ## Dashboard Preview
 
+
 ![SECOM Dashboard Concept](dashboard.png)
 
 ## Core Architecture
