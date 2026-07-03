@@ -148,7 +148,7 @@ SITE_ID = GET_SITE_ID()
 
 # Login routing
 LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/accounts/login/'  # Redirect to login page after logout
 
 # Google Provider Configuration
 SOCIALACCOUNT_PROVIDERS = {

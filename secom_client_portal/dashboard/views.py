@@ -1,10 +1,22 @@
 import json
+from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from .models import ClientOutcome, SecurityAlert, DeviceHealth  
+
+@login_required
+def client_dashboard(request):
+    outcomes = ClientOutcome.objects.filter(client=request.user)
+    alerts = SecurityAlert.objects.filter(client=request.user, is_resolved=False).order_by('-timestamp')
+    devices = DeviceHealth.objects.filter(client=request.user)
+    
+    # 2. Count the alerts so Chart.js knows how big to draw the slices
+    critical_count = alerts.filter(severity='CRITICAL').count()
+    warning_count = alerts.filter(severity='WARNING').count()
+    info_count = alerts.filter(severity='INFO').count()
 
 @login_required(login_url='/accounts/login/')
 def client_dashboard(request):
