@@ -14,3 +14,14 @@ class ClientOutcome(models.Model):
 
     def __str__(self):
         return f"{self.client.username} - {self.project_name}"
+    
+
+class DeviceHealth(models.Model):
+    client = models.ForeignKey(User, on_delete=models.CASCADE)
+    device_name = models.CharField(max_length=100, help_text="e.g., Loading Bay CCTV, Front Door Access")
+    location = models.CharField(max_length=100)
+    status = models.CharField(max_length=20, choices=[('ONLINE', 'Online'), ('OFFLINE', 'Offline'), ('MAINTENANCE', 'Maintenance')])
+    last_ping = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.device_name} - {self.status}"

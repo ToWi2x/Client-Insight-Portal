@@ -11,47 +11,69 @@
 <div class="container mt-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2>Welcome, {{ request.user.username }}</h2>
-        <span class="badge bg-primary fs-5">SECOM IT Outcomes</span>
+      <div class="row mb-4 mt-4">
+    <div class="col-md-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-header bg-dark text-white">
+                <strong>Threat Breakdown</strong>
+            </div>
+            <div class="card-body">
+                <canvas id="alertChart"></canvas>
+            </div>
+        </div>
     </div>
 
-    <div class="card shadow-sm">
-        <div class="card-body">
-            <table class="table table-hover">
-                <thead class="table-dark">
-                    <tr>
-                        <th>Project Name</th>
-                        <th>System Uptime</th>
-                        <th>Tickets Resolved</th>
-                        <th>Status</th>
-                        <th>Last Updated</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- This loops through the database and creates a row for each item -->
-                    {% for item in outcomes %}
-                    <tr>
-                        <td><strong>{{ item.project_name }}</strong></td>
-                        <td>{{ item.system_uptime }}%</td>
-                        <td>{{ item.tickets_resolved }}</td>
-                        <td>
-                            {% if item.status == 'Optimal' %}
-                                <span class="badge bg-success">{{ item.status }}</span>
-                            {% else %}
-                                <span class="badge bg-warning text-dark">{{ item.status }}</span>
-                            {% endif %}
-                        </td>
-                        <td>{{ item.last_updated }}</td>
-                    </tr>
+    <div class="col-md-8">
+        <div class="card shadow-sm h-100">
+            <div class="card-header bg-dark text-white">
+                <strong>Live Hardware Status</strong>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    {% for device in devices %}
+                    <div class="col-md-4 mb-3">
+                        <div class="border rounded p-3 text-center h-100 shadow-sm
+                            {% if device.status == 'ONLINE' %}border-success bg-light
+                            {% elif device.status == 'OFFLINE' %}border-danger bg-danger text-white
+                            {% else %}border-warning bg-warning text-dark{% endif %}">
+                            <h6 class="mb-1">{{ device.device_name }}</h6>
+                            <small>{{ device.location }}</small><br>
+                            <strong class="mt-2 d-block">{{ device.status }}</strong>
+                        </div>
+                    </div>
                     {% empty %}
-                    <tr>
-                        <td colspan="5" class="text-center">No outcome data available for your account.</td>
-                    </tr>
+                    <p class="text-muted">No hardware assigned to this account.</p>
                     {% endfor %}
-                </tbody>
-            </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const ctx = document.getElementById('alertChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Critical', 'Warning', 'Info'],
+                datasets: [{
+                    data: [{{ critical_count }}, {{ warning_count }}, {{ info_count }}],
+                    backgroundColor: ['#dc3545', '#ffc107', '#0dcaf0'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                cutout: '70%',
+                plugins: {
+                    legend: { position: 'bottom' }
+                }
+            }
+        });
+    });
+</script>
 
 </body>
 </html>
