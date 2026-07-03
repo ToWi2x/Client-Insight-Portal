@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    "jazzmin",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -151,3 +152,32 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 
 SOCIALACCOUNT_LOGIN_ON_GET = True
+
+# ==========================================
+# JAZZMIN ADMIN DASHBOARD SETTINGS
+# ==========================================
+JAZZMIN_SETTINGS = {
+    # Title on the window tab
+    "site_title": "SECOM Admin",
+    
+    # Title on the login screen
+    "site_header": "SECOM Operations",
+    
+    # Title on the brand area
+    "site_brand": "SECOM Enterprise",
+    
+    # Welcome text on the login screen
+    "welcome_sign": "Welcome to the SECOM Security Backend",
+    
+    # Copyright on the footer
+    "copyright": "SECOM Ltd",
+    
+    # Turn on the UI builder so you can change colors visually!
+    "show_ui_builder": True,
+}
+
+# Force Dark Mode and sleek styling
+JAZZMIN_UI_TWEAKS = {
+    "theme": "darkly",
+    "dark_mode_theme": "darkly",
+}
