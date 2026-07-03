@@ -62,9 +62,6 @@ This Proof of Concept (PoC) was built to demonstrate a modern, scalable client d
 * **Frontend:** HTML5, Bootstrap 5, Chart.js, DataTables.js
 * **API Ingestion:** Native Django JSON parsing with CSRF exemption for automated hardware nodes
 
-## Dashboard Preview
-
-![SECOM Dashboard Concept](dashboard.png)
 
 ## Core Architecture
 
