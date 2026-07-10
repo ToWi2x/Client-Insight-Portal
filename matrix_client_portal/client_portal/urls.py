@@ -23,3 +23,7 @@ urlpatterns = [
     path('', include('dashboard.urls')),
     path('accounts/', include('allauth.urls')),
 ]
+
+admin.site.site_header = "Matrix Enterprise"  
+admin.site.site_title = "Matrix Admin Portal"
+admin.site.index_title = "Welcome to the Administration Portal"

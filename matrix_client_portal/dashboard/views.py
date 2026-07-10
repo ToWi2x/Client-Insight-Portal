@@ -1,3 +1,4 @@
+import requests
 import json
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
@@ -24,13 +25,26 @@ def client_dashboard(request):
     outcomes = ClientOutcome.objects.filter(client=request.user)
     alerts = SecurityAlert.objects.filter(client=request.user, is_resolved=False).order_by('-timestamp')
     devices = DeviceHealth.objects.filter(client=request.user)
-    
+
     # 2. Count the alerts so Chart.js knows how big to draw the slices
     critical_count = alerts.filter(severity='CRITICAL').count()
     warning_count = alerts.filter(severity='WARNING').count()
     info_count = alerts.filter(severity='INFO').count()
-    
-    # 3. Package ALL of this data together to send to the HTML template
+
+    # Fetching External Weather API Data for Doncaster 
+    try:
+        api_url = "https://api.open-meteo.com/v1/forecast?latitude=53.5228&longitude=-1.1285&current_weather=true"
+        response = requests.get(api_url, timeout=3)
+        weather_data = response.json()
+        temperature = weather_data['current_weather']['temperature']
+        windspeed = weather_data['current_weather']['windspeed']
+        api_status = "Connected"
+    except Exception as e:
+        temperature = "N/A"
+        windspeed = "N/A"
+        api_status = "Disconnected"
+
+   
     context = {
         'outcomes': outcomes,
         'alerts': alerts,
@@ -38,7 +52,12 @@ def client_dashboard(request):
         'critical_count': critical_count,
         'warning_count': warning_count,
         'info_count': info_count,
+        #  Adding the API variables to the dictionary 
+        'ext_temperature': temperature,
+        'ext_windspeed': windspeed,
+        'ext_api_status': api_status,
     }
+    
     return render(request, 'dashboard/client_dashboard.html', context)
 
 
@@ -75,3 +94,5 @@ def device_ping_api(request):
         return JsonResponse({'status': 'error', 'message': 'Malformed payload.'}, status=400)
     except Exception as e:
         return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+    
+

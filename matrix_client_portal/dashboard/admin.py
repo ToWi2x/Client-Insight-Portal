@@ -15,3 +15,4 @@ class SecurityAlertAdmin(admin.ModelAdmin):
 class DeviceHealthAdmin(admin.ModelAdmin):
     list_display = ('client', 'device_name', 'location', 'status', 'last_ping')
     list_filter = ('status', 'location')       
+

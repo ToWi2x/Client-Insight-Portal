@@ -170,19 +170,19 @@ SOCIALACCOUNT_LOGIN_ON_GET = True
 # ==========================================
 JAZZMIN_SETTINGS = {
     # Title on the window tab
-    "site_title": "SECOM Admin",
+    "site_title": "MATRIX Admin",
     
     # Title on the login screen
-    "site_header": "SECOM Operations",
+    "site_header": "MATRIX Operations",
     
     # Title on the brand area
-    "site_brand": "SECOM Enterprise",
+    "site_brand": "MATRIX Enterprise",
     
     # Welcome text on the login screen
-    "welcome_sign": "Welcome to the SECOM Security Backend",
+    "welcome_sign": "Welcome to the MATRIX Security Backend",
     
     # Copyright on the footer
-    "copyright": "SECOM Ltd",
+    "copyright": "MATRIX Ltd",
     
     # Turn on the UI builder so you can change colors visually!
     "show_ui_builder": True,
